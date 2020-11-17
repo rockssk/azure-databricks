@@ -1,0 +1,53 @@
+{
+ "properties": {
+  "displayName": "DBR-CMK_Audit",
+  "policyType": "Custom",
+  "mode": "All",
+  "metadata": {
+   "category": "Databricks",
+   "createdBy": "88836eaf-fa43-4a5a-84ed-5962cd4c9815",
+   "createdOn": "2020-10-08T20:48:59.9941597Z",
+   "updatedBy": null,
+   "updatedOn": null
+  },
+  "parameters": {
+   "effect": {
+    "type": "String",
+    "metadata": {
+     "displayName": "Effect",
+     "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": [
+     "Audit",
+     "Deny",
+     "Disabled"
+    ],
+    "defaultValue": "Audit"
+   }
+  },
+  "policyRule": {
+   "if": {
+    "allOf": [
+     {
+      "field": "type",
+      "equals": "Microsoft.Databricks/workspaces"
+     },
+     {
+      "field": "Microsoft.DataBricks/workspaces/provisioningState",
+      "equals": "Succeeded"
+     },
+     {
+      "field": "Microsoft.Databricks/workspaces/parameters.encryption.value.keySource",
+      "notEquals": "Microsoft.Keyvault"
+     }
+    ]
+   },
+   "then": {
+    "effect": "[parameters('effect')]"
+   }
+  }
+ },
+ "id": "/subscriptions/a323610f-cb53-4636-9260-611bcda58307/providers/Microsoft.Authorization/policyDefinitions/39665e4a-86b5-430f-9433-1e15cc137b10",
+ "type": "Microsoft.Authorization/policyDefinitions",
+ "name": "39665e4a-86b5-430f-9433-1e15cc137b10"
+}
